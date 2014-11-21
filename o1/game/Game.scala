@@ -16,5 +16,12 @@ class Game {
 		
 		false
 	}
+	
+	def playTurn(command: String) = {
+//		val action = new Action(command)
+//		val outcomeReport = action.execute(this.player)
+//		outcomeReport.getOrElse("Unknown command: \"" + command + "\".")
+		""
+	}
 
 }

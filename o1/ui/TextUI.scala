@@ -11,8 +11,6 @@ object TextUI extends App {
 	private val player = game.player
 	this.run()
 	
-	
-	
 	private def run() = {
 		println(this.game.welcomeMessage)
 		while (!this.game.isOver) {
@@ -24,7 +22,14 @@ object TextUI extends App {
 	private def printAreaInfo() = {
 		val area = this.player.location
 		println("\n\n" + area.areaName)
-		println(area.fullDescription.)
+		println(area.fullDescription.mkString("\n"))
+	}
+	
+	private def playTurn() = {
+		println()
+		val command = readLine("Command: ")
+		val turnReport = this.game.playTurn(command)
+		
 	}
 
 }

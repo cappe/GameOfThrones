@@ -1,5 +1,7 @@
 package o1.characters
 
-class Enemy(name: String, hp: Int) extends Character(name, hp) {
+import o1.game._
+
+class Enemy(name: String, hp: Int, startingArea: Area) extends Character(name, hp, startingArea) {
 
 }
