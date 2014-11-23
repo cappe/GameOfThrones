@@ -7,5 +7,44 @@ class Player(name: String, hp: Int, startingArea: Area) extends Character(name, 
 	private var currentLocation = startingArea 
 	
 	def location = this.currentLocation
+	
+	def go(direction: String): String = {
+		
+		""
+	}
+	
+	def get(itemName: String): String = {
+		
+		""
+	}
+	
+	def has(itemName: String): Boolean = {
+		
+		false
+	}
+	
+	def makeInventory(): String = {
+		
+		""
+	}
+	
+	def examine(itemName: String): String = {
+		
+		""
+	}
+	
+	def drop(itemName: String): String = {
+		
+		""
+	}
+	
+	def quit(): String = {
+		
+		
+		""
+	}
+	
+	def fight(): String = ???
+	
 
 }
