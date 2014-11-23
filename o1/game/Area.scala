@@ -13,10 +13,16 @@ class Area(var areaName: String, var areaDescription: String) {
 	def fullDescription = {
 		var itemList = ""
 		if(!this.items.isEmpty) {
-			itemList = "\nYou see here: " + this.items.keys.mkString(" ")
+			itemList = "You see here: " + this.items.keys.mkString(" ")
+		} else {
+			itemList = "You don't see any items lying around."
 		}
-		val exitList = "\n\nExits available: " + this.neighbors.keys.mkString(" ")
-		this.areaDescription + itemList + exitList
+		val exitList = "Exits available: " + this.neighbors.keys.mkString(" ")
+		val separationLines = "-" * this.areaName.length()
+		
+		"\nYou are now in " + this.areaName + ".\n" +
+			this.areaDescription + "\n" + separationLines +
+				"\n" + itemList + "\n\n" + exitList
 	}
 
 	def setNeighbors(exits: Vector[(String, Area)]) = {

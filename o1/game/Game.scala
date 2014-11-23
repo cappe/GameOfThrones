@@ -55,12 +55,22 @@ class Game {
 	/* Add weapons to vector */
 	private val weapons = Vector(needle, oathKeeper, dragonGlass)
 	
-	/* Add all the weapons to random areas */
-	for(weapon <- weapons) {
-		this.areas(Random.nextInt(this.areas.size)).addItem(weapon)
-	}
-	
+	/* Set a player (Arya) */
 	val player = new Player("Arya", 100, home)
+	
+	/* Add all the weapons to random areas */
+//	for(weapon <- weapons) {
+//		this.areas(Random.nextInt(this.areas.size)).addItem(weapon)
+//	}
+	
+	/* ---------------- FOR DEBUGGING PURPOSES ----------------------------- */
+	
+//	winterFell.addItem(needle)
+	
+	
+	
+	/* -------------------- DEBUGGING PURPOSES END ------------------------- */
+	
 	
 	def isComplete = {
 		this.player.location == this.home && this.allRelativesRescued && this.player.isAlive()

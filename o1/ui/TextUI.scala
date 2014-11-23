@@ -21,14 +21,12 @@ object TextUI extends App {
 	
 	private def printAreaInfo() = {
 		val area = this.player.location
-		println("\n\nYou are in " + area.areaName)
-		println("-" * area.areaName.length)
-		println(area.fullDescription + "\n")
+		println(area.fullDescription)
 	}
 	
 	private def playTurn() = {
 		println()
-		val command = readLine("Command: ")
+		val command = readLine("Next command: ")
 		val turnReport = this.game.playTurn(command)
 		if (!turnReport.isEmpty())
 			println(turnReport)
