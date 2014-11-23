@@ -4,6 +4,8 @@ import o1.game._
 import o1.items._
 import o1.characters._
 
+import scala.collection.mutable.Map
+
 class Player(name: String, hp: Int, startingArea: Area) {
 	
 	private var currentLocation = startingArea
@@ -19,8 +21,17 @@ class Player(name: String, hp: Int, startingArea: Area) {
 	}
 	
 	def get(itemName: String): String = {
-		
-		""
+		var description = ""
+		if (this.currentLocation.contains(itemName)) {
+			val itemInHands = this.currentLocation.removeItem(itemName)
+			if(itemInHands.isDefined) {
+				this.itemsInPossession += itemName -> itemInHands.get
+				description = "You picked up the " + itemInHands.get.name + "."
+			}
+		} else {
+			description = "There is no " + itemName + " here to pick up."
+		}
+		description
 	}
 	
 	def rescuedRelative(relativeName: String): Boolean = {

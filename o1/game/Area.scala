@@ -40,5 +40,13 @@ class Area(var areaName: String, var areaDescription: String) {
 	def neighbor(direction: String) = {
 		this.neighbors.get(direction)
 	}
+	
+	def contains(itemName: String): Boolean = {
+		this.items.contains(itemName)
+	}
+	
+	def removeItem(itemName: String): Option[Item] = {
+		this.items.remove(itemName)
+	}
 
 }

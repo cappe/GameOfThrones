@@ -65,7 +65,7 @@ class Game {
 	
 	/* ---------------- FOR DEBUGGING PURPOSES ----------------------------- */
 	
-//	winterFell.addItem(needle)
+	winterFell.addItem(needle)
 	
 	
 	
