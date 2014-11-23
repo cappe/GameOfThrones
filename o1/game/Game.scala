@@ -23,13 +23,13 @@ class Game {
 	private val areas = Vector(winterFell, qarth, theWall, kingsLanding, volantis, castleBlack, casterlyRock)
 	
 	/* Add neighbors to areas */
-	winterFell.setNeighbors(Vector("West" -> kingsLanding, "South" -> casterlyRock))
-	qarth.setNeighbors(Vector("South" -> volantis, "East" -> kingsLanding))
-	theWall.setNeighbors(Vector("South" -> kingsLanding))
-	kingsLanding.setNeighbors(Vector("North" -> theWall, "East" -> winterFell, "South" -> castleBlack, "West" -> qarth))
-	volantis.setNeighbors(Vector("North" -> qarth, "East" -> castleBlack))
-	castleBlack.setNeighbors(Vector("North" -> kingsLanding, "East" -> casterlyRock, "West" -> volantis))
-	casterlyRock.setNeighbors(Vector("North" -> winterFell, "West" -> castleBlack))
+	winterFell.setNeighbors(Vector("west" -> kingsLanding, "south" -> casterlyRock))
+	qarth.setNeighbors(Vector("south" -> volantis, "east" -> kingsLanding))
+	theWall.setNeighbors(Vector("south" -> kingsLanding))
+	kingsLanding.setNeighbors(Vector("north" -> theWall, "east" -> winterFell, "south" -> castleBlack, "west" -> qarth))
+	volantis.setNeighbors(Vector("north" -> qarth, "east" -> castleBlack))
+	castleBlack.setNeighbors(Vector("north" -> kingsLanding, "east" -> casterlyRock, "west" -> volantis))
+	casterlyRock.setNeighbors(Vector("north" -> winterFell, "west" -> castleBlack))
 	
 	/* Set characters */
 	private val sansa = new Relative("Sansa Stark", kingsLanding, "Relative")
@@ -63,11 +63,11 @@ class Game {
 	val player = new Player("Arya", 100, home)
 	
 	def isComplete = {
-		this.player.location == this.home && this.allRelativesRescued
+		this.player.location == this.home && this.allRelativesRescued && this.player.isAlive()
 	}
 	
 	def allRelativesRescued: Boolean = {
-		this.relatives.forall(p => this.player.has(p.name))
+		this.relatives.forall(p => this.player.rescuedRelative(p.name))
 	}
 	
 	def addItemsToArea(area: Area, item: Item) = {
