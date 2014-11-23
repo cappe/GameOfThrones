@@ -1,10 +1,14 @@
 package o1.characters
 
 import o1.game._
+import o1.items._
+import o1.characters._
 
-class Player(name: String, hp: Int, startingArea: Area) extends Character(name, startingArea) {
+class Player(name: String, hp: Int, startingArea: Area) {
 	
-	private var currentLocation = startingArea 
+	private var currentLocation = startingArea
+	private val itemsInPossession = Map[String, Item]()
+	private val relativesRescued = Map[String, Relative]()
 	
 	def location = this.currentLocation
 	

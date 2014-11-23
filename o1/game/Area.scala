@@ -28,8 +28,8 @@ class Area(var areaName: String, var areaDescription: String) {
 		this.items += item.name -> item
 	}
 	
-	def addCharacter(character: Character) = {
-		this.characters += character.name -> character
+	def addCharacter(character: Character*) = {
+		character.foreach(f => (this.characters += f.name -> f))
 	}
 
 }
