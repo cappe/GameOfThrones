@@ -30,7 +30,7 @@ class Area(var areaName: String, var areaDescription: String) {
 	}
 	
 	def addItem(item: Item) = {
-		this.items += item.name -> item
+		this.items += item.name.toLowerCase() -> item
 	}
 	
 	def addCharacter(character: Character*) = {

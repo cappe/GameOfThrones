@@ -17,6 +17,7 @@ class Action(input: String) {
 			case "drop" => Some(actor.drop(this.modifiers))
 			case "inventory" => Some(actor.makeInventory())
 			case "quit" => Some(actor.quit())
+			case _ => None
 		}
 	}
 }

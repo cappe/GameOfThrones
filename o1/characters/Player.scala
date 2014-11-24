@@ -25,7 +25,7 @@ class Player(name: String, hp: Int, startingArea: Area) {
 		if (this.currentLocation.contains(itemName)) {
 			val itemInHands = this.currentLocation.removeItem(itemName)
 			if(itemInHands.isDefined) {
-				this.itemsInPossession += itemName -> itemInHands.get
+				this.itemsInPossession += itemInHands.get.name -> itemInHands.get
 				description = "You picked up the " + itemInHands.get.name + "."
 			}
 		} else {
@@ -43,8 +43,14 @@ class Player(name: String, hp: Int, startingArea: Area) {
 	}
 	
 	def makeInventory(): String = {
-		
-		""
+		var description = ""
+		if (this.itemsInPossession.isEmpty)
+			description = "You are empty-handed."
+		else {
+			description = "You are carrying:"
+			this.itemsInPossession.foreach(description += "\n" + _._1)
+		}
+		description
 	}
 	
 	def examine(itemName: String): String = {
