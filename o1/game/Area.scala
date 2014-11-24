@@ -3,6 +3,7 @@ package o1.game
 import scala.collection.mutable.Map
 import o1.items._
 import o1.characters._
+import o1.game._
 
 class Area(var areaName: String, var areaDescription: String) {
 	
@@ -11,9 +12,9 @@ class Area(var areaName: String, var areaDescription: String) {
 	private val characters = Map[String, Character]()
 	
 	def fullDescription = {
-		val itemList =getItemList()
-		val characterList = getCharacterList()
-		val exitList = getExitList()
+		val itemList =getItemDescription()
+		val characterList = getEnemyDescription()
+		val exitList = getExitDescription()
 		
 		val separationLines = "-" * this.areaName.length()
 		
@@ -22,23 +23,31 @@ class Area(var areaName: String, var areaDescription: String) {
 				"\n" + itemList + "\n" + characterList + "\n\n" + exitList
 	}
 	
-	private def getExitList(): String = {
+	private def getExitDescription(): String = {
 		var exitList = "Places you can go to:"
 		this.neighbors.foreach(f => exitList += "\n" + f._2.areaName + " (" + f._1.capitalize + ")")
 		exitList
 	}
 	
-	private def getCharacterList(): String = {
-		var characterList = ""
-		if (!this.characters.isEmpty) {
-			characterList = "Characters you see here: " + this.characters.keys.mkString(" ")
+	private def getEnemyDescription(): String = {
+		var enemyDescription = ""
+		var enemyName = getPossibleEnemyName()
+		if (!enemyName.isEmpty()) {
+			enemyDescription = "\nWatch out! Your enemy " + enemyName + " is here.\n" +
+						"He might have captured one of your relatives.\n" + 
+						"Ask " + enemyName.takeWhile(_ != ' ') + " about this."
 		} else {
-			characterList = "There is no people in " + this.areaName + "."
+			enemyDescription = "Phiuh! No enemies nearby."
 		}
-		characterList
+		enemyDescription
 	}
 
-	private def getItemList(): String = {
+	private def getPossibleEnemyName(): String = {
+		var possibleEnemy = this.characters.find(p => p._2.relationShip == Game.enemy)
+		possibleEnemy.map(f => f._2.name).getOrElse("")
+	}
+
+	private def getItemDescription(): String = {
 		var itemList = ""
 		if (!this.items.isEmpty) {
 			itemList = "Items you see here: " + this.items.keys.mkString(", ").capitalize
@@ -52,8 +61,8 @@ class Area(var areaName: String, var areaDescription: String) {
 		this.neighbors ++= exits
 	}
 	
-	def addItem(item: Item) = {
-		this.items += item.name.toLowerCase() -> item
+	def addItem(items: Item*) = {
+		items.foreach(f => (this.items += f.name.toLowerCase() -> f))
 	}
 	
 	def addCharacter(character: Character*) = {

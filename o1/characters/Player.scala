@@ -6,7 +6,7 @@ import o1.characters._
 
 import scala.collection.mutable.Map
 
-class Player(name: String, hp: Int, startingArea: Area) {
+class Player(val name: String, var hp: Int, var startingArea: Area) {
 	
 	private var currentLocation = startingArea
 	private val itemsInPossession = Map[String, Item]()

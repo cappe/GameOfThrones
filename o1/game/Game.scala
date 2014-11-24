@@ -32,15 +32,15 @@ class Game {
 	casterlyRock.setNeighbors(Vector("north" -> winterFell, "west" -> castleBlack))
 	
 	/* Set characters */
-	private val sansa = new Relative("Sansa Stark", kingsLanding, "Relative")
-	private val catelyn = new Relative("Catelyn Stark", theWall, "Relative")
-	private val robb = new Relative("Robb Stark", castleBlack, "Relative")
+	private val sansa = new Relative("Sansa Stark", Game.relative)
+	private val catelyn = new Relative("Catelyn Stark", Game.relative)
+	private val robb = new Relative("Robb Stark", Game.relative)
 	
 	private val relatives = Vector(sansa, catelyn, robb)
 	
-	private val joffrey = new Enemy("Joffrey Baratheon", 100, kingsLanding, "Enemy")
-	private val ramsay = new Enemy("Ramsay Bolton", 150, castleBlack, "Enemy")
-	private val whiteWalker = new Enemy("White Walker", 200, theWall, "Enemy")
+	private val joffrey = new Enemy("Joffrey Baratheon", 100, kingsLanding, Game.enemy, Some(sansa))
+	private val ramsay = new Enemy("Ramsay Bolton", 150, castleBlack, Game.enemy, Some(robb))
+	private val whiteWalker = new Enemy("White Walker", 200, theWall, Game.enemy, Some(catelyn))
 	
 	/* Add characters to areas */
 	kingsLanding.addCharacter(sansa, joffrey)
@@ -56,7 +56,7 @@ class Game {
 	private val weapons = Vector(needle, oathKeeper, dragonGlass)
 	
 	/* Set a player (Arya) */
-	val player = new Player("Arya", 100, home)
+	val player = new Player("Arya", 100, kingsLanding)
 	
 	/* Add all the weapons to random areas */
 //	for(weapon <- weapons) {
@@ -97,4 +97,9 @@ class Game {
 		actionReport.getOrElse("Unknown command: \"" + command + "\".")
 	}
 
+}
+
+object Game {
+	val enemy = "Enemy"
+	val relative = "Relative"
 }
