@@ -24,7 +24,7 @@ class Area(var areaName: String, var areaDescription: String) {
 	
 	private def getExitList(): String = {
 		var exitList = "Places you can go to:"
-		this.neighbors.foreach(f => exitList += "\n" + f._1.capitalize + " (" + f._2.areaName + ")")
+		this.neighbors.foreach(f => exitList += "\n" + f._2.areaName + " (" + f._1.capitalize + ")")
 		exitList
 	}
 	

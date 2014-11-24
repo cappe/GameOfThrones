@@ -17,7 +17,7 @@ class Player(name: String, hp: Int, startingArea: Area) {
 	def go(direction: String): String = {
 		val destination = this.location.neighbor(direction)
 		this.currentLocation = destination.getOrElse(this.currentLocation)
-		if (destination.isDefined) "You go " + direction + "." else "You can't go " + direction + "."
+		if (destination.isDefined) "You go to " + destination.get.areaName + "." else "You can't go there."
 	}
 	
 	def get(itemName: String): String = {
