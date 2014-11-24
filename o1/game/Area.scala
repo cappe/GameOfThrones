@@ -11,18 +11,41 @@ class Area(var areaName: String, var areaDescription: String) {
 	private val characters = Map[String, Character]()
 	
 	def fullDescription = {
-		var itemList = ""
-		if(!this.items.isEmpty) {
-			itemList = "You see here: " + this.items.keys.mkString(" ")
-		} else {
-			itemList = "You don't see any items lying around."
-		}
-		val exitList = "Exits available: " + this.neighbors.keys.mkString(" ")
+		val itemList =getItemList()
+		val characterList = getCharacterList()
+		val exitList = getExitList()
+		
 		val separationLines = "-" * this.areaName.length()
 		
 		"\nYou are now in " + this.areaName + ".\n" +
 			this.areaDescription + "\n" + separationLines +
-				"\n" + itemList + "\n\n" + exitList
+				"\n" + itemList + "\n" + characterList + "\n\n" + exitList
+	}
+	
+	private def getExitList(): String = {
+		var exitList = "Places you can go to:"
+		this.neighbors.foreach(f => exitList += "\n" + f._1.capitalize + " (" + f._2.areaName + ")")
+		exitList
+	}
+	
+	private def getCharacterList(): String = {
+		var characterList = ""
+		if (!this.characters.isEmpty) {
+			characterList = "Characters you see here: " + this.characters.keys.mkString(" ")
+		} else {
+			characterList = "There is no people in " + this.areaName + "."
+		}
+		characterList
+	}
+
+	private def getItemList(): String = {
+		var itemList = ""
+		if (!this.items.isEmpty) {
+			itemList = "Items you see here: " + this.items.keys.mkString(", ").capitalize
+		} else {
+			itemList = "You don't see any items lying around."
+		}
+		itemList
 	}
 
 	def setNeighbors(exits: Vector[(String, Area)]) = {
@@ -38,7 +61,11 @@ class Area(var areaName: String, var areaDescription: String) {
 	}
 	
 	def neighbor(direction: String) = {
-		this.neighbors.get(direction)
+		var newDirection = this.neighbors.get(direction)
+		if (newDirection.isEmpty) {
+			newDirection = this.neighbors.find(_._2.areaName.toLowerCase() == direction).map(_._2)
+		}
+		newDirection
 	}
 	
 	def contains(itemName: String): Boolean = {
