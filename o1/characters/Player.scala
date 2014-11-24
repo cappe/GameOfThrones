@@ -54,9 +54,14 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	}
 	
 	def ask(name: String): String = {
-		val enemy = this.currentLocation.getCharacter(Game.enemy).get
-		println(enemy.ask(name))
-		""
+		val enemy = this.currentLocation.getCharacterByName(name)
+		var answer = ""
+		if(enemy.isDefined) {
+			answer = enemy.get.ask()
+		} else {
+			answer = "No " + name.capitalize + " here."
+		}
+		answer
 	}
 	
 	def examine(itemName: String): String = {
@@ -80,6 +85,4 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	def isAlive(): Boolean = {
 		this.hp > 0
 	}
-	
-
 }

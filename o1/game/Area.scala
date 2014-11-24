@@ -31,22 +31,27 @@ class Area(var areaName: String, var areaDescription: String) {
 	
 	private def getEnemyDescription(): String = {
 		var enemyDescription = ""
-		var enemy = getCharacter(Game.enemy)
+		var enemy = getCharacterByRelationship(Game.enemy)
 		if (enemy.isDefined) {
-			var fullName = enemy.get.name
-			var firstName = fullName.takeWhile(_ != ' ')
+			var fullName = enemy.get.fullName
+			var firstName = enemy.get.firstName
 			enemyDescription = "\nWatch out! Your enemy " + fullName + " is here.\n" +
 						"He might have captured one of your relatives.\n" + 
 						"Ask " + firstName + " about this by typing 'Ask " + firstName + "'."
 		} else {
-			enemyDescription = "Phiuh! No enemies nearby."
+			enemyDescription = Area.noEnemies
 		}
 		enemyDescription
 	}
 
-	def getCharacter(relationShip: String): Option[Character] = {
-		var possibleEnemy = this.characters.find(p => p._2.relationShip == relationShip)
-		possibleEnemy.map(f => f._2)
+	def getCharacterByName(name: String): Option[Character] = {
+		var possibleCharacter = this.characters.find(_._2.firstName.toLowerCase() == name)
+		possibleCharacter.map(_._2)
+	}
+
+	def getCharacterByRelationship(relationShip: String): Option[Character] = {
+		var possibleCharacter = this.characters.find(_._2.relationShip == relationShip)
+		possibleCharacter.map(_._2)
 	}
 
 	private def getItemDescription(): String = {
@@ -54,7 +59,7 @@ class Area(var areaName: String, var areaDescription: String) {
 		if (!this.items.isEmpty) {
 			itemList = "Items you see here: " + this.items.keys.mkString(", ").capitalize
 		} else {
-			itemList = "You don't see any items lying around."
+			itemList = Area.noItems
 		}
 		itemList
 	}
@@ -68,7 +73,7 @@ class Area(var areaName: String, var areaDescription: String) {
 	}
 	
 	def addCharacter(character: Character*) = {
-		character.foreach(f => (this.characters += f.name -> f))
+		character.foreach(f => (this.characters += f.fullName -> f))
 	}
 	
 	def neighbor(direction: String) = {
@@ -86,5 +91,9 @@ class Area(var areaName: String, var areaDescription: String) {
 	def removeItem(itemName: String): Option[Item] = {
 		this.items.remove(itemName)
 	}
+}
 
+object Area {
+	val noEnemies = "Phiuh! No enemies nearby."
+	val noItems =  "You don't see any items lying around."
 }

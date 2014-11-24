@@ -38,9 +38,13 @@ class Game {
 	
 	private val relatives = Vector(sansa, robb)
 	
-	private val joffrey = new Enemy("Joffrey Baratheon", 100, kingsLanding, Game.enemy, Some(sansa), Game.male)
-	private val ramsay = new Enemy("Ramsay Bolton", 150, castleBlack, Game.enemy, Some(robb), Game.male)
-	private val whiteWalker = new Enemy("Whitewalker", 200, theWall, Game.enemy, None, Game.unknown)
+	private val joffrey = new Enemy("Joffrey Baratheon", 100, kingsLanding, Game.enemy, Game.male)
+	private val ramsay = new Enemy("Ramsay Bolton", 150, castleBlack, Game.enemy, Game.male)
+	private val whiteWalker = new Enemy("Whitewalker", 200, theWall, Game.enemy, Game.unknown)
+	
+	/* Set hostages */	
+	joffrey.setHostage(sansa)
+	ramsay.setHostage(robb)
 	
 	/* Add characters to areas */
 	kingsLanding.addCharacter(sansa, joffrey)
@@ -77,7 +81,7 @@ class Game {
 	}
 	
 	def allRelativesRescued: Boolean = {
-		this.relatives.forall(p => this.player.rescuedRelative(p.name))
+		this.relatives.forall(p => this.player.rescuedRelative(p.fullName))
 	}
 	
 	def addItemsToArea(area: Area, item: Item) = {
