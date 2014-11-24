@@ -53,6 +53,12 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		description
 	}
 	
+	def ask(name: String): String = {
+		val enemy = this.currentLocation.getCharacter(Game.enemy).get
+		println(enemy.ask(name))
+		""
+	}
+	
 	def examine(itemName: String): String = {
 		
 		""

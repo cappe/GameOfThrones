@@ -31,20 +31,22 @@ class Area(var areaName: String, var areaDescription: String) {
 	
 	private def getEnemyDescription(): String = {
 		var enemyDescription = ""
-		var enemyName = getPossibleEnemyName()
-		if (!enemyName.isEmpty()) {
-			enemyDescription = "\nWatch out! Your enemy " + enemyName + " is here.\n" +
+		var enemy = getCharacter(Game.enemy)
+		if (enemy.isDefined) {
+			var fullName = enemy.get.name
+			var firstName = fullName.takeWhile(_ != ' ')
+			enemyDescription = "\nWatch out! Your enemy " + fullName + " is here.\n" +
 						"He might have captured one of your relatives.\n" + 
-						"Ask " + enemyName.takeWhile(_ != ' ') + " about this."
+						"Ask " + firstName + " about this by typing 'Ask " + firstName + "'."
 		} else {
 			enemyDescription = "Phiuh! No enemies nearby."
 		}
 		enemyDescription
 	}
 
-	private def getPossibleEnemyName(): String = {
-		var possibleEnemy = this.characters.find(p => p._2.relationShip == Game.enemy)
-		possibleEnemy.map(f => f._2.name).getOrElse("")
+	def getCharacter(relationShip: String): Option[Character] = {
+		var possibleEnemy = this.characters.find(p => p._2.relationShip == relationShip)
+		possibleEnemy.map(f => f._2)
 	}
 
 	private def getItemDescription(): String = {

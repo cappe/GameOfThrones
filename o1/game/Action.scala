@@ -15,6 +15,7 @@ class Action(input: String) {
 			case "fight" => Some(actor.fight())
 			case "examine" => Some(actor.examine(this.modifiers))
 			case "drop" => Some(actor.drop(this.modifiers))
+			case "ask" => Some(actor.ask(this.modifiers))
 			case "inventory" => Some(actor.makeInventory())
 			case "quit" => Some(actor.quit())
 			case _ => None

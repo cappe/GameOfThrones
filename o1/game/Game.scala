@@ -32,20 +32,20 @@ class Game {
 	casterlyRock.setNeighbors(Vector("north" -> winterFell, "west" -> castleBlack))
 	
 	/* Set characters */
-	private val sansa = new Relative("Sansa Stark", Game.relative)
-	private val catelyn = new Relative("Catelyn Stark", Game.relative)
-	private val robb = new Relative("Robb Stark", Game.relative)
+	private val sansa = new Relative("Sansa Stark", Game.relative, Game.female)
+//	private val catelyn = new Relative("Catelyn Stark", Game.relative, Game.female)
+	private val robb = new Relative("Robb Stark", Game.relative, Game.male)
 	
-	private val relatives = Vector(sansa, catelyn, robb)
+	private val relatives = Vector(sansa, robb)
 	
-	private val joffrey = new Enemy("Joffrey Baratheon", 100, kingsLanding, Game.enemy, Some(sansa))
-	private val ramsay = new Enemy("Ramsay Bolton", 150, castleBlack, Game.enemy, Some(robb))
-	private val whiteWalker = new Enemy("White Walker", 200, theWall, Game.enemy, Some(catelyn))
+	private val joffrey = new Enemy("Joffrey Baratheon", 100, kingsLanding, Game.enemy, Some(sansa), Game.male)
+	private val ramsay = new Enemy("Ramsay Bolton", 150, castleBlack, Game.enemy, Some(robb), Game.male)
+	private val whiteWalker = new Enemy("Whitewalker", 200, theWall, Game.enemy, None, Game.unknown)
 	
 	/* Add characters to areas */
 	kingsLanding.addCharacter(sansa, joffrey)
 	castleBlack.addCharacter(robb, ramsay)
-	theWall.addCharacter(catelyn, whiteWalker)
+	theWall.addCharacter(whiteWalker)
 	
 	/* Set weapons */
 	private val needle = new Weapon("Needle", "Description of Needle", 20)
@@ -102,4 +102,8 @@ class Game {
 object Game {
 	val enemy = "Enemy"
 	val relative = "Relative"
+	
+	val male = "Male"
+	val female = "Female"
+	val unknown = "Unknown"
 }
