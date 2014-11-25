@@ -64,6 +64,10 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		answer
 	}
 	
+	def exits(): String = {
+		this.currentLocation.getExitDescription()
+	}
+	
 	def examine(itemName: String): String = {
 		
 		""

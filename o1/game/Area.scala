@@ -16,14 +16,15 @@ class Area(var areaName: String, var areaDescription: String) {
 		val characterList = getEnemyDescription()
 		val exitList = getExitDescription()
 		
-		val separationLines = "-" * this.areaName.length()
+		val separationLines = "-" * 30
 		
 		"\nYou are now in " + this.areaName + ".\n" +
 			this.areaDescription + "\n" + separationLines +
-				"\n" + itemList + "\n" + characterList + "\n\n" + exitList
+				"\n" + itemList + "\n" + separationLines + "\n" +
+				characterList + "\n\n" + exitList
 	}
 	
-	private def getExitDescription(): String = {
+	def getExitDescription(): String = {
 		var exitList = "Places you can go to:"
 		this.neighbors.foreach(f => exitList += "\n" + f._2.areaName + " (" + f._1.capitalize + ")")
 		exitList
@@ -35,7 +36,7 @@ class Area(var areaName: String, var areaDescription: String) {
 		if (enemy.isDefined) {
 			var fullName = enemy.get.fullName
 			var firstName = enemy.get.firstName
-			enemyDescription = "\nWatch out! Your enemy " + fullName + " is here.\n" +
+			enemyDescription = "Watch out! Your enemy " + fullName + " is here.\n" +
 						"He might have captured one of your relatives.\n" + 
 						"Ask " + firstName + " about this by typing 'Ask " + firstName + "'."
 		} else {

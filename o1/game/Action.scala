@@ -10,15 +10,20 @@ class Action(input: String) {
 	
 	def execute(actor: Player): Option[String] = {
 		this.verb match {
-			case "go" => Some(actor.go(this.modifiers))
-			case "get" => Some(actor.get(this.modifiers))
-			case "fight" => Some(actor.fight())
-			case "examine" => Some(actor.examine(this.modifiers))
-			case "drop" => Some(actor.drop(this.modifiers))
-			case "ask" => Some(actor.ask(this.modifiers))
+			case "go"  => if(!this.modifiers.isEmpty()) Some(actor.go(this.modifiers)) else Action.specifyCommand
+			case "get" => if(!this.modifiers.isEmpty()) Some(actor.get(this.modifiers)) else Action.specifyCommand
+			case "examine" => if(!this.modifiers.isEmpty()) Some(actor.examine(this.modifiers)) else Action.specifyCommand
+			case "drop" => if(!this.modifiers.isEmpty()) Some(actor.drop(this.modifiers)) else Action.specifyCommand
+			case "ask" => if(!this.modifiers.isEmpty()) Some(actor.ask(this.modifiers)) else Action.specifyCommand
 			case "inventory" => Some(actor.makeInventory())
+			case "exits" => Some(actor.exits())
+			case "fight" => Some(actor.fight())
 			case "quit" => Some(actor.quit())
 			case _ => None
 		}
 	}
+}
+
+object Action {
+	private val specifyCommand: Option[String] = Some("Specify your command.")
 }
