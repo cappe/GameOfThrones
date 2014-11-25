@@ -15,6 +15,7 @@ class Action(input: String) {
 			case "examine" => if(!this.modifiers.isEmpty()) Some(actor.examine(this.modifiers)) else Action.specifyCommand
 			case "drop" => if(!this.modifiers.isEmpty()) Some(actor.drop(this.modifiers)) else Action.specifyCommand
 			case "ask" => if(!this.modifiers.isEmpty()) Some(actor.ask(this.modifiers)) else Action.specifyCommand
+			case "area" => Some(actor.areainfo())
 			case "inventory" => Some(actor.makeInventory())
 			case "exits" => Some(actor.exits())
 			case "fight" => Some(actor.fight())

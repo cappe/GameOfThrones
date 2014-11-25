@@ -11,21 +11,24 @@ class Area(var areaName: String, var areaDescription: String) {
 	private val items = Map[String, Item]()
 	private val characters = Map[String, Character]()
 	
-	def fullDescription = {
-		val itemList =getItemDescription()
-		val characterList = getEnemyDescription()
-		val exitList = getExitDescription()
+	def fullDescription() = {
+		val areaInfo = getAreaInfo()
+		val itemDescription =getItemDescription()
+		val enemyListDescription = getEnemyDescription()
+		val exitDescription = getExitDescription()
 		
 		val separationLines = "-" * 30
 		
-		"\nYou are now in " + this.areaName + ".\n" +
-			this.areaDescription + "\n" + separationLines +
-				"\n" + itemList + "\n" + separationLines + "\n" +
-				characterList + "\n\n" + exitList
+		areaInfo + "\n" + separationLines + "\n" + itemDescription + "\n" +
+			separationLines + "\n" + enemyListDescription + "\n" + exitDescription
+	}
+	
+	def getAreaInfo(): String = {
+		"\nYou are now in " + this.areaName + ".\n" + this.areaDescription
 	}
 	
 	def getExitDescription(): String = {
-		var exitList = "Places you can go to:"
+		var exitList = "\nPlaces you can go to:"
 		this.neighbors.foreach(f => exitList += "\n" + f._2.areaName + " (" + f._1.capitalize + ")")
 		exitList
 	}

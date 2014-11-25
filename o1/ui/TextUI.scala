@@ -30,7 +30,7 @@ object TextUI extends App {
 	}
 
 	private def printAreaInfo(area: Area) = {
-		println(area.fullDescription)
+		println(area.fullDescription())
 	}
 	
 	private def playTurn() = {
