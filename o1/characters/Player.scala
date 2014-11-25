@@ -98,12 +98,31 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 			Game.battleFieldCommand
 	}
 	
-	def hit(weapon: String, enemy: Enemy): Option[String] = {
-		Some("pelaajan lyönti")
+	def hit(weaponName: String, enemy: Enemy): Option[String] = {
+		val weapon = this.itemsInPossession.find(_._1.toLowerCase().equals(weaponName)).map(_._2)
+		var result: Option[String] = None
+		if (weapon.isDefined) {
+			result = enemy.tryToKill(weapon.get.effectivity)
+		}
+		result				
+	}
+	
+	def tryToKill(effectivity: Int): Option[String] = {
+		this.hp -= effectivity
+		Some(this.toString())
 	}
 	
 	def isAlive(): Boolean = {
-		true
+		this.hp > 0
+	}
+	
+	override def toString(): String = {
+		var description = "You "
+		if (this.isAlive())
+			description += "have still " + this.hp + " hp. Whouhuuu!"
+		else
+			description += "are dead. Game over!"
+		description
 	}
 }
 
