@@ -88,7 +88,10 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		""
 	}
 	
-	def fight(): String = ???
+	def fight(enemyName: String): String = {
+		
+		""
+	}
 	
 	def isAlive(): Boolean = {
 		this.hp > 0

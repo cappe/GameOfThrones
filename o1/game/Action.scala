@@ -18,7 +18,7 @@ class Action(input: String) {
 			case "area" => Some(actor.areainfo())
 			case "inventory" => Some(actor.makeInventory())
 			case "exits" => Some(actor.exits())
-			case "fight" => Some(actor.fight())
+			case "fight" => if(!this.modifiers.isEmpty()) Some(actor.fight(this.modifiers)) else Action.specifyCommand
 			case "quit" => Some(actor.quit())
 			case _ => None
 		}
