@@ -91,8 +91,7 @@ class Game {
 	def welcomeMessage = "You are playing Arya from Game of Thrones. Save your relatives!"
 	
 	def isOver: Boolean = {
-		
-		false
+		!this.player.isAlive()
 	}
 	
 	def playTurn(command: String): String = {

@@ -42,6 +42,10 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		this.relativesRescued.contains(relativeName)
 	}
 	
+	def addRelative(relative: Relative) = {
+		this.relativesRescued += relative.fullName -> relative
+	}
+	
 	def hasItem(itemName: String): Boolean = {
 		this.itemsInPossession.contains(itemName)
 	}
@@ -89,27 +93,34 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		""
 	}
 	
+	def getWeapons(): Vector[Item] = {
+		this.itemsInPossession.filter(_._2.isInstanceOf[Weapon]).map(_._2).toVector
+	}
+	
 	def fight(): String = {
-		if(!this.getCurrentLocation().getEnemy().isDefined)
+		val possibleEnemy = this.getCurrentLocation().getEnemy()
+		if(!possibleEnemy.isDefined)
 			Area.noEnemies
+		else if (!possibleEnemy.get.hostage.isDefined)
+			Enemy.noHostages
 		else	if (!this.itemsInPossession.exists(_._2.isInstanceOf[Weapon]))
 			Player.noWeapons
 		else
 			Game.battleFieldCommand
 	}
 	
-	def hit(weaponName: String, enemy: Enemy): Option[String] = {
+	def hit(weaponName: String, enemy: Enemy): String = {
 		val weapon = this.itemsInPossession.find(_._1.toLowerCase().equals(weaponName)).map(_._2)
-		var result: Option[String] = None
+		var result = ""
 		if (weapon.isDefined) {
 			result = enemy.tryToKill(weapon.get.effectivity)
 		}
 		result				
 	}
 	
-	def tryToKill(effectivity: Int): Option[String] = {
+	def tryToKill(effectivity: Int): String = {
 		this.hp -= effectivity
-		Some(this.toString())
+		this.toString()
 	}
 	
 	def isAlive(): Boolean = {
@@ -117,11 +128,11 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	}
 	
 	override def toString(): String = {
-		var description = "You "
+		var description = ""
 		if (this.isAlive())
-			description += "have still " + this.hp + " hp. Whouhuuu!"
+			description += "You have " + this.hp + " hp. Whouhuuu!"
 		else
-			description += "are dead. Game over!"
+			description += "\nYou are dead. Game over!"
 		description
 	}
 }

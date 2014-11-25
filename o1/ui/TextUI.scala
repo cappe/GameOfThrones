@@ -34,7 +34,6 @@ object TextUI extends App {
 	}
 	
 	private def playTurn() = {
-		println()
 		val turnReport = this.game.playTurn(getNextCommand())
 		if (turnReport.equals(Game.battleFieldCommand))
 			playBattleTurn()
@@ -54,13 +53,24 @@ object TextUI extends App {
 	private def printBattleReport(battleField: Battlefield) = {
 		println(battleField.battleFieldMessage)
 		while(battleField.isBattling()) {
-			val battleReport = battleField.playBattleTurn(getNextCommand())
-			if (battleReport._1.isDefined && battleReport._2.isDefined)
-				println(battleReport)
+			val playerBattleReport = battleField.playPlayerTurn(getNextCommand())
+			val enemyBattleReport = battleField.playEnemyTurn()
+			if (enemyBattleReport.isDefined) {
+				println(playerBattleReport.get + "\n" + enemyBattleReport.get)
+			}
 		}
-	}	
+		println(printBattleResults(battleField))
+	}
+	
+	private def printBattleResults(battleField: Battlefield): String = {
+		var results = ""
+		if (this.player.isAlive())
+			results += battleField.setWinResults()
+		results
+	}
 	
 	private def getNextCommand(): String = {
+		println()
 		readLine("Next command: ")
 	}
 

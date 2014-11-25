@@ -26,7 +26,8 @@ class Action(input: String) {
 	
 	def executePlayerFightCommands(player: Player, enemy: Enemy): Option[String] = {
 		this.verb match {
-			case "use" => player.hit(this.modifiers, enemy)
+			case "use" => Some(player.hit(this.modifiers, enemy))
+			case _ => None
 		}
 	}
 }
@@ -35,6 +36,6 @@ object Action {
 	private val specifyCommand: Option[String] = Some("Specify your command.")
 	
 	def executeEnemyFightCommand(enemy: Enemy, player: Player): Option[String] = {
-		enemy.hit(player)
+		Some(enemy.hit(player))
 	}
 }
