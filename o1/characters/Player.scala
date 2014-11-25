@@ -57,15 +57,12 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		description
 	}
 	
-	def ask(name: String): String = {
-		val enemy = this.currentLocation.getCharacterByName(name)
-		var answer = ""
-		if(enemy.isDefined) {
-			answer = enemy.get.ask()
-		} else {
-			answer = "No " + name.capitalize + " here."
-		}
-		answer
+	def ask(): String = {
+		val enemy = this.currentLocation.getEnemy()
+		if(enemy.isDefined)
+			enemy.get.ask()
+		else
+			"No " + name.capitalize + " here."
 	}
 	
 	def exits(): String = {
@@ -93,7 +90,7 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	}
 	
 	def fight(): String = {
-		if(!this.getCurrentLocation().getCharacterByRelationship(Game.enemy).isDefined)
+		if(!this.getCurrentLocation().getEnemy().isDefined)
 			Area.noEnemies
 		else	if (!this.itemsInPossession.exists(_._2.isInstanceOf[Weapon]))
 			Player.noWeapons

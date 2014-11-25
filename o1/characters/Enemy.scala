@@ -27,6 +27,11 @@ class Enemy(fullName: String, var hp: Int, startingArea: Area, relationShip: Str
 		}
 		answer
 	}
+	
+	def hit(): String = {
+		
+		""
+	}
 
 	protected override def getCorrectGrammatic(sex: String): String = {
 		super.getCorrectGrammatic(sex)

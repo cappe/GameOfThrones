@@ -9,7 +9,8 @@ class Area(var areaName: String, var areaDescription: String) {
 	
 	private val neighbors = Map[String, Area]()
 	private val items = Map[String, Item]()
-	private val characters = Map[String, Character]()
+	private var enemy: Option[Enemy] = None
+	private var relative: Option[Relative] = None
 	
 	def fullDescription() = {
 		val areaInfo = getAreaInfo()
@@ -35,7 +36,7 @@ class Area(var areaName: String, var areaDescription: String) {
 	
 	private def getEnemyDescription(): String = {
 		var enemyDescription = ""
-		var enemy = getCharacterByRelationship(Game.enemy)
+		var enemy = this.enemy
 		if (enemy.isDefined) {
 			var fullName = enemy.get.fullName
 			var firstName = enemy.get.firstName
@@ -48,14 +49,12 @@ class Area(var areaName: String, var areaDescription: String) {
 		enemyDescription
 	}
 
-	def getCharacterByName(name: String): Option[Character] = {
-		var possibleCharacter = this.characters.find(_._2.firstName.toLowerCase() == name)
-		possibleCharacter.map(_._2)
+	def getEnemy(): Option[Enemy] = {
+		this.enemy
 	}
-
-	def getCharacterByRelationship(relationShip: String): Option[Character] = {
-		var possibleCharacter = this.characters.find(_._2.relationShip == relationShip)
-		possibleCharacter.map(_._2)
+	
+	def getRelative(): Option[Relative] = {
+		this.relative
 	}
 
 	private def getItemDescription(): String = {
@@ -76,8 +75,12 @@ class Area(var areaName: String, var areaDescription: String) {
 		items.foreach(f => (this.items += f.name.toLowerCase() -> f))
 	}
 	
-	def addCharacter(character: Character*) = {
-		character.foreach(f => (this.characters += f.fullName -> f))
+	def addEnemy(enemy: Option[Enemy]) = {
+		this.enemy = enemy
+	}
+	
+	def addRelative(relative: Option[Relative]) = {
+		this.relative = relative
 	}
 	
 	def neighbor(direction: String) = {

@@ -47,9 +47,9 @@ class Game {
 	ramsay.setHostage(robb)
 	
 	/* Add characters to areas */
-	kingsLanding.addCharacter(sansa, joffrey)
-	castleBlack.addCharacter(robb, ramsay)
-	theWall.addCharacter(whiteWalker)
+	kingsLanding.addEnemy(Some(joffrey))
+	castleBlack.addEnemy(Some(ramsay))
+	theWall.addEnemy(Some(whiteWalker))
 	
 	/* Set weapons */
 	private val needle = new Weapon("Needle", "Description of Needle", 20)
@@ -103,9 +103,10 @@ class Game {
 	
 	def getNewBattlefield(): Option[Battlefield] = {
 		val player = this.player
-		val enemy = this.player.getCurrentLocation().getCharacterByRelationship(Game.enemy)
-		if (enemy.isDefined)
+		val enemy = this.player.getCurrentLocation().getEnemy()
+		if (enemy.isDefined) {
 			Some(new Battlefield(player, enemy.get))
+		}
 		else
 			None
 	}
