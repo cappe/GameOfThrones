@@ -17,13 +17,13 @@ class Enemy(fullName: String, var hp: Int, startingArea: Area, relationShip: Str
 	}
 
 	def ask(): String = {
-		var answer = ""
+		var answer = "\n"
 		if (this.hostage.isDefined) {
 			val hostage = this.hostage.get
 			answer += "Muhahah! I have your relative " + hostage.firstName + " captured\n" +
 				"and I won't free " + getCorrectGrammatic(hostage.sex) + " without a FIGHT!"
 		} else {
-			answer = "I have no relatives of yours captured. Now get lost!"
+			answer += "I have no relatives of yours captured. Now get lost!"
 		}
 		answer
 	}

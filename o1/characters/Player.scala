@@ -20,6 +20,10 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		if (destination.isDefined) "You go to " + destination.get.areaName + "." else "You can't go there."
 	}
 	
+	def getCurrentLocation(): Area = {
+		this.currentLocation
+	}
+	
 	def get(itemName: String): String = {
 		var description = ""
 		if (this.currentLocation.contains(itemName)) {
@@ -88,12 +92,25 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		""
 	}
 	
-	def fight(enemyName: String): String = {
-		
+	def fight(): String = {
+		if(!this.getCurrentLocation().getCharacterByRelationship(Game.enemy).isDefined)
+			Area.noEnemies
+		else	if (!this.itemsInPossession.exists(_._2.isInstanceOf[Weapon]))
+			Player.noWeapons
+		else
+			Game.battleFieldCommand
+	}
+	
+	def hit(weapon: String): String = {
+		println("weapon: " + weapon) 
 		""
 	}
 	
 	def isAlive(): Boolean = {
-		this.hp > 0
+		true
 	}
+}
+
+object Player {
+	val noWeapons = "You don't have any weapons.Try to\nfind some before going to fight."
 }

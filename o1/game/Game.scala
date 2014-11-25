@@ -69,12 +69,12 @@ class Game {
 	
 	/* ---------------- FOR DEBUGGING PURPOSES ----------------------------- */
 	
-	winterFell.addItem(needle)
+	kingsLanding.addItem(needle)
+	player.get("needle")
 	
 	
 	
 	/* -------------------- DEBUGGING PURPOSES END ------------------------- */
-	
 	
 	def isComplete = {
 		this.player.location == this.home && this.allRelativesRescued && this.player.isAlive()
@@ -100,7 +100,15 @@ class Game {
 		val actionReport = action.execute(this.player)
 		actionReport.getOrElse("Unknown command: \"" + command + "\".")
 	}
-
+	
+	def getNewBattlefield(): Option[Battlefield] = {
+		val player = this.player
+		val enemy = this.player.getCurrentLocation().getCharacterByRelationship(Game.enemy)
+		if (enemy.isDefined)
+			Some(new Battlefield(player, enemy.get))
+		else
+			None
+	}
 }
 
 object Game {
@@ -110,4 +118,6 @@ object Game {
 	val male = "Male"
 	val female = "Female"
 	val unknown = "Unknown"
+	
+	val battleFieldCommand = "fight"
 }
