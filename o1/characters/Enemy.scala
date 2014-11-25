@@ -28,9 +28,8 @@ class Enemy(fullName: String, var hp: Int, startingArea: Area, relationShip: Str
 		answer
 	}
 	
-	def hit(): String = {
-		
-		""
+	def hit(player: Player): Option[String] = {
+		Some("vihollisen lyönti")
 	}
 
 	protected override def getCorrectGrammatic(sex: String): String = {

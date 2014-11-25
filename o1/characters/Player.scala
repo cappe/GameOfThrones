@@ -98,9 +98,8 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 			Game.battleFieldCommand
 	}
 	
-	def hit(weapon: String): String = {
-		println("weapon: " + weapon) 
-		""
+	def hit(weapon: String, enemy: Enemy): Option[String] = {
+		Some("pelaajan lyönti")
 	}
 	
 	def isAlive(): Boolean = {

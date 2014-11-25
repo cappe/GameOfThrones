@@ -55,7 +55,7 @@ object TextUI extends App {
 		println(battleField.battleFieldMessage)
 		while(battleField.isBattling()) {
 			val battleReport = battleField.playBattleTurn(getNextCommand())
-			if (!battleReport.isEmpty())
+			if (battleReport._1.isDefined && battleReport._2.isDefined)
 				println(battleReport)
 		}
 	}	
