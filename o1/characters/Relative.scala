@@ -3,15 +3,15 @@ package o1.characters
 import o1.game._
 
 class Relative(fullName: String, relationShip: String, sex: String) extends Character(fullName, relationShip, sex) {
-	
+
 	var hostagedBy: Option[Enemy] = None
 
 	def ask(): String = {
-		var answer = "\n"
-		if(this.hostagedBy.isDefined) {
+		var answer = ""
+		if (this.hostagedBy.isDefined) {
 			val hostagedBy = this.hostagedBy.get
 			answer += "Help, help me Arya! Evil " + hostagedBy.fullName + " has\ncaptured me." +
-					" Kill " + getCorrectGrammatic(hostagedBy.sex) + " before it's too late."
+				" Kill " + getCorrectGrammatic(hostagedBy.sex) + " before it's too late."
 		} else {
 			answer += "Dear Arya, thank you for saving my life!"
 		}
@@ -21,5 +21,5 @@ class Relative(fullName: String, relationShip: String, sex: String) extends Char
 	protected override def getCorrectGrammatic(sex: String): String = {
 		super.getCorrectGrammatic(sex)
 	}
-	
+
 }

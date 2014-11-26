@@ -3,18 +3,18 @@ package o1.game
 import o1.characters._
 
 class Action(input: String) {
-	
+
 	private val commandText = input.trim.toLowerCase
 	private val verb = commandText.takeWhile(_ != ' ')
 	private val modifiers = commandText.drop(verb.length).trim
-	
+
 	def execute(actor: Player): Option[String] = {
 		this.verb match {
-			case "go"  => if(!this.modifiers.isEmpty()) Some(actor.go(this.modifiers)) else Action.specifyCommand
-			case "get" => if(!this.modifiers.isEmpty()) Some(actor.get(this.modifiers)) else Action.specifyCommand
-			case "examine" => if(!this.modifiers.isEmpty()) Some(actor.examine(this.modifiers)) else Action.specifyCommand
-			case "drop" => if(!this.modifiers.isEmpty()) Some(actor.drop(this.modifiers)) else Action.specifyCommand
-			case "ask" => Some(actor.ask())
+			case "go" => if (!this.modifiers.isEmpty()) Some(actor.go(this.modifiers)) else Action.specifyCommand
+			case "get" => if (!this.modifiers.isEmpty()) Some(actor.get(this.modifiers)) else Action.specifyCommand
+			case "examine" => if (!this.modifiers.isEmpty()) Some(actor.examine(this.modifiers)) else Action.specifyCommand
+			case "drop" => if (!this.modifiers.isEmpty()) Some(actor.drop(this.modifiers)) else Action.specifyCommand
+			case "ask" => if (!this.modifiers.isEmpty()) Some(actor.ask(this.modifiers)) else Action.specifyCommand
 			case "fight" => Some(actor.fight())
 			case "area" => Some(actor.areainfo())
 			case "inventory" => Some(actor.makeInventory())
@@ -22,7 +22,7 @@ class Action(input: String) {
 			case "quit" => Some(actor.quit())
 			case "items" => Some(actor.itemsInThisArea())
 			case "enemies" => Some(actor.enemiesInThisArea())
-			case "tips" => Some(actor.tips()) 
+			case "tips" => Some(actor.tips())
 			case "hp" => Some(actor.getHp())
 			case "help" => Some(actor.getHelp())
 			case "refill" => Some(actor.refill())
@@ -30,11 +30,12 @@ class Action(input: String) {
 			case _ => None
 		}
 	}
-	
+
+	/* Battle commands */
 	def executePlayerFightCommands(player: Player, enemy: Enemy): Option[String] = {
 		this.verb match {
-			case "use" => Some(player.hit(this.modifiers, enemy))
-			case "exit" => Some(player.exitFight())
+			case "use" => player.hit(this.modifiers, enemy)
+			case "exit" => player.exitFight()
 			case _ => None
 		}
 	}
@@ -42,7 +43,8 @@ class Action(input: String) {
 
 object Action {
 	private val specifyCommand: Option[String] = Some("Specify your command.")
-	
+
+	/* Enemy's battle method */
 	def executeEnemyFightCommand(enemy: Enemy, player: Player): Option[String] = {
 		Some(enemy.hit(player))
 	}

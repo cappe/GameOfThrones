@@ -8,18 +8,21 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 	var hostage: Option[Relative] = None
 	val weapon: Option[Weapon] = Some(new Weapon("Sword", "Description of Sword", 10))
 
+	/* Sets a hostage to this enemy. Max 1 hostage. */
 	def setHostage(relative: Relative) = {
 		relative.hostagedBy = Some(this)
 		this.hostage = Some(relative)
 	}
 
+	/* Frees hostage. Is called only when !this.enemy.isAlive() */
 	def freeHostage(): (Option[Relative], String) = {
 		var description = "\n"
 		if (this.hostage.isDefined) {
+			this.hostage.map(_.hostagedBy = None)
 			val freedHostage = this.hostage
 			this.hostage = None
 			description += "You saved your relative " + freedHostage.get.fullName + " and\nkilled evil " +
-						this.fullName + ". Congratulations!"
+				this.fullName + ". Congratulations!"
 			(freedHostage, description)
 		} else {
 			description += "No hostages to save."
@@ -38,18 +41,20 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 		}
 		answer
 	}
-	
+
+	/* Hits the player with a fixed damage effect */
 	def hit(player: Player): String = {
 		var result = ""
 		if (weapon.isDefined) {
 			result = player.tryToKill(weapon.get.effectivity)
 		}
-		result				
+		result
 	}
-	
+
+	/* Lets the player try to kill this enemy */
 	def tryToKill(effectivity: Int): String = {
 		var description = "\n"
-		if(this.hp >= effectivity) {
+		if (this.hp >= effectivity) {
 			this.hp -= effectivity
 			description += "You made " + effectivity + " hp damage. Nice!"
 		} else {
@@ -57,11 +62,11 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 		}
 		description + "\n" + this.toString()
 	}
-	
+
 	def isAlive(): Boolean = {
 		this.hp > 0
 	}
-	
+
 	override def toString(): String = {
 		var description = this.fullName
 		if (this.isAlive())
@@ -69,7 +74,7 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 		else
 			description += " died. You killed " + this.getCorrectGrammatic(this.sex) + "."
 		description
-		
+
 	}
 
 	protected override def getCorrectGrammatic(sex: String): String = {
@@ -80,5 +85,5 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 
 object Enemy {
 	val noRelativesCaptured = "I have no relatives of yours captured. Now get lost!"
-	val noHostages = "This enemy has no hostages. No need to start a fight."
+	val noHostages = "This enemy has no hostages. No need to start a fight here."
 }

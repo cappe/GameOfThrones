@@ -5,5 +5,5 @@ class Weapon(name: String, description: String, effectivity: Int) extends Item(n
 	override def toString(): String = {
 		this.name + " (does " + this.effectivity + " hp damage)"
 	}
-	
+
 }
