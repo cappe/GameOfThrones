@@ -35,6 +35,7 @@ object TextUI extends App {
 	
 	private def playTurn() = {
 		val turnReport = this.game.playTurn(getNextCommand())
+		println()
 		if (turnReport.equals(Game.battleFieldCommand))
 			playBattleTurn()
 		else if (!turnReport.isEmpty())

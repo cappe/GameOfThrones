@@ -34,7 +34,7 @@ class Area(var areaName: String, var areaDescription: String) {
 		exitList
 	}
 	
-	private def getEnemyDescription(): String = {
+	def getEnemyDescription(): String = {
 		var enemyDescription = ""
 		var enemy = this.enemy
 		if (enemy.isDefined) {
@@ -57,12 +57,13 @@ class Area(var areaName: String, var areaDescription: String) {
 		this.relative
 	}
 
-	private def getItemDescription(): String = {
+	def getItemDescription(): String = {
 		var itemList = ""
 		if (!this.items.isEmpty) {
-			itemList = "Items you see here: " + this.items.keys.mkString(", ").capitalize
+			itemList += "Items you see here: "
+			this.items.foreach(itemList += "\n" + _._2.toString())
 		} else {
-			itemList = Area.noItems
+			itemList += Area.noItems
 		}
 		itemList
 	}

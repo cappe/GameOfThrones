@@ -8,7 +8,10 @@ import scala.collection.mutable.Map
 
 class Player(val name: String, var hp: Int, var startingArea: Area) {
 	
-	private var currentLocation = startingArea
+	private val home = startingArea
+	private val maxHp = hp
+	private var currentLocation = home
+	private var quitCommandGiven = false
 	private val itemsInPossession = Map[String, Item]()
 	private val relativesRescued = Map[String, Relative]()
 	
@@ -29,8 +32,8 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		if (this.currentLocation.contains(itemName)) {
 			val itemInHands = this.currentLocation.removeItem(itemName)
 			if(itemInHands.isDefined) {
-				this.itemsInPossession += itemInHands.get.name -> itemInHands.get
-				description = "You picked up the " + itemInHands.get.name + "."
+				this.itemsInPossession += itemInHands.get.name.toLowerCase() -> itemInHands.get
+				description = "You picked up the " + itemInHands.get.toString() + "."
 			}
 		} else {
 			description = "There is no " + itemName + " here to pick up."
@@ -50,13 +53,52 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		this.itemsInPossession.contains(itemName)
 	}
 	
+	def tips(): String = {
+		val tip1 = "- Go back home to " + this.home.areaName + " to get full hp before the next fight."
+		val tip2 = "- Use 'help' to see available commands."
+		tip1 + "\n" + tip2
+	}
+	
+	def getHp(): String = {
+		var description = ""
+		if (this.hp == this.maxHp) {
+			description += "You have maximum amount of\nHealth Points. " +
+			"That is " + this.maxHp + " hp."
+		} else {
+			description += "You have only " + this.hp + " hp left." +
+			"\nGo back home to " + this.home.areaName + "to get full hp."
+		}
+		description
+	}
+	
+	def getHelp(): String = {
+		var helpList = ""
+		Action.commands.foreach(f => helpList += "\n\n" + f._1 + ": " + f._2)
+		helpList
+	}
+	
 	def makeInventory(): String = {
+		getRelativesRescued() + "\n" + getItemsInPossession()
+	}
+	
+	private def getRelativesRescued(): String = {
+		var description = ""
+		if (this.relativesRescued.isEmpty)
+			description += "No relatives saved - yet."
+		else {
+			description += "You have saved:"
+			this.relativesRescued.foreach(description += "\n" + _._2.fullName)
+		}
+		description
+	}
+
+	private def getItemsInPossession(): String = {
 		var description = ""
 		if (this.itemsInPossession.isEmpty)
-			description = "You are empty-handed."
+			description += "You are not carrying any items."
 		else {
-			description = "You are carrying:"
-			this.itemsInPossession.foreach(description += "\n" + _._1)
+			description += "You are carrying:"
+			this.itemsInPossession.foreach(description += "\n" + _._2.toString())
 		}
 		description
 	}
@@ -78,20 +120,32 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	}
 	
 	def examine(itemName: String): String = {
-		
-		""
+		this.itemsInPossession.find(_._1.equals(itemName)).map(_._2.description).getOrElse(Player.noItem)
+	}
+	
+	def itemsInThisArea(): String = {
+		this.currentLocation.getItemDescription()
+	}
+	
+	def enemiesInThisArea(): String = {
+		this.currentLocation.getEnemyDescription()
 	}
 	
 	def drop(itemName: String): String = {
-		
-		""
+		if (this.hasItem(itemName)) {
+			this.currentLocation.addItem(this.itemsInPossession.get(itemName).get)
+			"You drop the " + this.itemsInPossession.remove(itemName).get.name + "."
+		} else {
+			Player.noItem
+		}
 	}
 	
 	def quit(): String = {
-		
-		
-		""
+		this.quitCommandGiven = true
+		"User quit the game."
 	}
+	
+	def hasQuit() = this.quitCommandGiven
 	
 	def getWeapons(): Vector[Item] = {
 		this.itemsInPossession.filter(_._2.isInstanceOf[Weapon]).map(_._2).toVector
@@ -139,4 +193,5 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 
 object Player {
 	val noWeapons = "You don't have any weapons.Try to\nfind some before going to fight."
+	val noItem = "You don't have that item!"
 }
