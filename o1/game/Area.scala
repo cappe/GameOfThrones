@@ -20,16 +20,16 @@ class Area(var areaName: String, var areaDescription: String) {
 		
 		val separationLines = "-" * 30
 		
-		areaInfo + "\n" + separationLines + "\n" + itemDescription + "\n" +
-			separationLines + "\n" + enemyListDescription + "\n" + exitDescription
+		"\n" + areaInfo + "\n" + separationLines + "\n" + itemDescription + "\n" +
+			separationLines + "\n" + enemyListDescription + "\n\n" + exitDescription
 	}
 	
 	def getAreaInfo(): String = {
-		"\nYou are now in " + this.areaName + ".\n" + this.areaDescription
+		"You are now in " + this.areaName + ".\n" + this.areaDescription
 	}
 	
 	def getExitDescription(): String = {
-		var exitList = "\nPlaces you can go to:"
+		var exitList = "Places you can go to:"
 		this.neighbors.foreach(f => exitList += "\n" + f._2.areaName + " (" + f._1.capitalize + ")")
 		exitList
 	}
@@ -78,6 +78,10 @@ class Area(var areaName: String, var areaDescription: String) {
 	
 	def addEnemy(enemy: Option[Enemy]) = {
 		this.enemy = enemy
+	}
+	
+	def removeEnemy() = {
+		this.enemy = None
 	}
 	
 	def addRelative(relative: Option[Relative]) = {

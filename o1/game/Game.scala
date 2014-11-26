@@ -60,23 +60,14 @@ class Game {
 	private val weapons = Vector(needle, oathKeeper, dragonGlass)
 	
 	/* Set a player (Arya) */
-	val player = new Player("Arya", 100, kingsLanding)
+	val player = new Player("Arya", 20, winterFell)
 	
 	/* Add all the weapons to random areas */
-//	for(weapon <- weapons) {
-//		this.areas(Random.nextInt(this.areas.size)).addItem(weapon)
-//	}
+	for(weapon <- weapons) {
+		this.areas(Random.nextInt(this.areas.size)).addItem(weapon)
+	}
 	
-	/* ---------------- FOR DEBUGGING PURPOSES ----------------------------- */
-	
-	kingsLanding.addItem(needle)
-	player.get("needle")
-	
-	
-	
-	/* -------------------- DEBUGGING PURPOSES END ------------------------- */
-	
-	def isComplete = {
+	def isCompleted = {
 		this.player.location == this.home && this.allRelativesRescued && this.player.isAlive()
 	}
 	
@@ -90,8 +81,19 @@ class Game {
 	
 	def welcomeMessage = "You are playing Arya from Game of Thrones. Save your relatives!"
 	
+	def goodByeMessage = {
+		if (this.isCompleted) {
+			"\nYou win! You saved all your relatives and\n" + 
+			"survived home alive. Nice work young lady!"
+		} else if (!this.player.isAlive()){
+			"Game over!"
+		} else {
+			"User quit the game!"
+		}
+	}
+	
 	def isOver: Boolean = {
-		!this.player.isAlive() || this.player.hasQuit()
+		!this.player.isAlive() || this.player.hasQuit() || this.isCompleted
 	}
 	
 	def playTurn(command: String): String = {

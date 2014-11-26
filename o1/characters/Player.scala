@@ -12,15 +12,31 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	private val maxHp = hp
 	private var currentLocation = home
 	private var quitCommandGiven = false
+	var exitCommandGiven = false
 	private val itemsInPossession = Map[String, Item]()
 	private val relativesRescued = Map[String, Relative]()
 	
-	def location = this.currentLocation
+	def location: Area = this.currentLocation
 	
 	def go(direction: String): String = {
 		val destination = this.location.neighbor(direction)
 		this.currentLocation = destination.getOrElse(this.currentLocation)
 		if (destination.isDefined) "You go to " + destination.get.areaName + "." else "You can't go there."
+	}
+	
+	def refill(): String = {
+		var description = ""
+		if (this.currentLocation.equals(home)) {
+			this.hp = this.maxHp
+			description += "You refilled your Health Points.\n" + this.getHp()
+		} else {
+			description += "Refill not possible. This is not your home."
+		}
+		description
+	}
+	
+	def getHome(): String = {
+		"Your home is " + this.home.areaName + "."
 	}
 	
 	def getCurrentLocation(): Area = {
@@ -54,19 +70,20 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	}
 	
 	def tips(): String = {
-		val tip1 = "- Go back home to " + this.home.areaName + " to get full hp before the next fight."
-		val tip2 = "- Use 'help' to see available commands."
-		tip1 + "\n" + tip2
+		val tip1 = "- Go home to " + this.home.areaName + " to refill your Health Points.\n"
+		val tip2 = "- Use 'help' to see available commands.\n"
+		val tip3 = "- Exit during the fight by typing 'exit' and go home to refill your Health Points."
+		tip1 + tip2 + tip3
 	}
 	
 	def getHp(): String = {
 		var description = ""
 		if (this.hp == this.maxHp) {
-			description += "You have maximum amount of\nHealth Points. " +
+			description += "You have now maximum amount of\nHealth Points. " +
 			"That is " + this.maxHp + " hp."
 		} else {
 			description += "You have only " + this.hp + " hp left." +
-			"\nGo back home to " + this.home.areaName + "to get full hp."
+			"\nGo back home to " + this.home.areaName + " to refill your Health Points."
 		}
 		description
 	}
@@ -93,7 +110,7 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	}
 
 	private def getItemsInPossession(): String = {
-		var description = ""
+		var description = "\n"
 		if (this.itemsInPossession.isEmpty)
 			description += "You are not carrying any items."
 		else {
@@ -108,7 +125,7 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		if(enemy.isDefined)
 			enemy.get.ask()
 		else
-			"No " + name.capitalize + " here."
+			Player.noPerson
 	}
 	
 	def exits(): String = {
@@ -142,7 +159,7 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	
 	def quit(): String = {
 		this.quitCommandGiven = true
-		"User quit the game."
+		""
 	}
 	
 	def hasQuit() = this.quitCommandGiven
@@ -152,6 +169,7 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	}
 	
 	def fight(): String = {
+		this.exitCommandGiven = false
 		val possibleEnemy = this.getCurrentLocation().getEnemy()
 		if(!possibleEnemy.isDefined)
 			Area.noEnemies
@@ -172,9 +190,21 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 		result				
 	}
 	
+	def exitFight(): String = {
+		this.exitCommandGiven = true
+		"Exiting fight."
+	}
+	
 	def tryToKill(effectivity: Int): String = {
-		this.hp -= effectivity
-		this.toString()
+		if(this.hp > effectivity) {
+			this.hp -= effectivity
+			"\nEnemy made " + effectivity + " hp damage. Autch!" +
+			"\n" + this.toString()
+		} else {
+			val oldHp = this.hp
+			this.hp = 0
+			"\nYou had " + oldHp + " hp. Enemy killed you."
+		}
 	}
 	
 	def isAlive(): Boolean = {
@@ -184,14 +214,13 @@ class Player(val name: String, var hp: Int, var startingArea: Area) {
 	override def toString(): String = {
 		var description = ""
 		if (this.isAlive())
-			description += "You have " + this.hp + " hp. Whouhuuu!"
-		else
-			description += "\nYou are dead. Game over!"
+			description += "You have still " + this.hp + " hp. Whouhuuu!"
 		description
 	}
 }
 
 object Player {
-	val noWeapons = "You don't have any weapons.Try to\nfind some before going to fight."
+	val noWeapons = "You don't have any weapons. Try to\nfind some before going to fight."
 	val noItem = "You don't have that item!"
+	val noPerson = "There is no one here."
 }

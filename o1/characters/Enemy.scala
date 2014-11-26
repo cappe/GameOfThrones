@@ -14,13 +14,13 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 	}
 
 	def freeHostage(): (Option[Relative], String) = {
-		var description = ""
+		var description = "\n"
 		if (this.hostage.isDefined) {
 			val freedHostage = this.hostage
 			this.hostage = None
 			description += "You saved your relative " + freedHostage.get.fullName + " and\nkilled evil " +
 						this.fullName + ". Congratulations!"
-			(hostage, description)
+			(freedHostage, description)
 		} else {
 			description += "No hostages to save."
 			(None, description)
@@ -28,7 +28,7 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 	}
 
 	def ask(): String = {
-		var answer = "\n"
+		var answer = ""
 		if (this.hostage.isDefined) {
 			val hostage = this.hostage.get
 			answer += "Muhahah! I have your relative " + hostage.firstName + " captured\n" +
@@ -48,12 +48,14 @@ class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: Str
 	}
 	
 	def tryToKill(effectivity: Int): String = {
+		var description = "\n"
 		if(this.hp >= effectivity) {
 			this.hp -= effectivity
+			description += "You made " + effectivity + " hp damage. Nice!"
 		} else {
 			this.hp = 0
 		}
-		this.toString()
+		description + "\n" + this.toString()
 	}
 	
 	def isAlive(): Boolean = {

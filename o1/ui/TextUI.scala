@@ -19,6 +19,7 @@ object TextUI extends App {
 			this.getAreaInfo()
 			this.playTurn()
 		}
+		println(this.game.goodByeMessage)
 	}
 
 	private def getAreaInfo() = {
@@ -55,9 +56,8 @@ object TextUI extends App {
 		println(battleField.battleFieldMessage)
 		while(battleField.isBattling()) {
 			val playerBattleReport = battleField.playPlayerTurn(getNextCommand())
-			val enemyBattleReport = battleField.playEnemyTurn()
-			if (enemyBattleReport.isDefined) {
-				println(playerBattleReport.get + "\n" + enemyBattleReport.get)
+			if (!battleField.player.exitCommandGiven && battleField.isBattling()) {
+				val enemyBattleReport = battleField.playEnemyTurn()
 			}
 		}
 		println(printBattleResults(battleField))
@@ -65,8 +65,8 @@ object TextUI extends App {
 	
 	private def printBattleResults(battleField: Battlefield): String = {
 		var results = ""
-		if (this.player.isAlive())
-			results += battleField.setWinResults()
+		if (battleField.player.isAlive() && !battleField.enemy.isAlive())
+			results += battleField.getWinResults()
 		results
 	}
 	
