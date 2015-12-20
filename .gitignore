@@ -1,1 +1,6 @@
-/bin/
+bin/
+.cache
+.DS_Store
+Journey.zip
+.classpath
+.project
