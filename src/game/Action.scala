@@ -1,6 +1,6 @@
-package o1.game
+package src.game
 
-import o1.characters._
+import src.characters._
 
 class Action(input: String) {
 

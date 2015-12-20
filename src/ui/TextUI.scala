@@ -1,8 +1,8 @@
-package o1.ui
+package src.ui
 
-import o1.game._
-import o1.characters._
-import o1.items._
+import src.game._
+import src.characters._
+import src.items._
 
 object TextUI extends App {
 

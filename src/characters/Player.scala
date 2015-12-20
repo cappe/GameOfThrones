@@ -1,8 +1,8 @@
-package o1.characters
+package src.characters
 
-import o1.game._
-import o1.items._
-import o1.characters._
+import src.game._
+import src.items._
+import src.characters._
 import scala.util.Random
 
 import scala.collection.mutable.Map

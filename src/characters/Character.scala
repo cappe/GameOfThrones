@@ -1,6 +1,6 @@
-package o1.characters
+package src.characters
 
-import o1.game._
+import src.game._
 
 abstract class Character(val fullName: String, val relationShip: String, val sex: String) {
 	

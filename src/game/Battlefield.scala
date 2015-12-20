@@ -1,6 +1,6 @@
-package o1.game
+package src.game
 
-import o1.characters._
+import src.characters._
 
 /* This class is used when the player decides to fight against a given enemy */
 class Battlefield(val player: Player, val enemy: Enemy) {

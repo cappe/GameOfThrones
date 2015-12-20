@@ -1,6 +1,6 @@
-package o1.characters
+package src.characters
 
-import o1.game._
+import src.game._
 
 class Relative(fullName: String, relationShip: String, sex: String) extends Character(fullName, relationShip, sex) {
 

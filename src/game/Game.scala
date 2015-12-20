@@ -1,9 +1,9 @@
-package o1.game
+package src.game
 
-import o1.characters._
-import o1.ui._
-import o1.game._
-import o1.items._
+import src.characters._
+import src.ui._
+import src.game._
+import src.items._
 
 import scala.util.Random
 

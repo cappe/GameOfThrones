@@ -1,7 +1,7 @@
-package o1.characters
+package src.characters
 
-import o1.game._
-import o1.items._
+import src.game._
+import src.items._
 
 class Enemy(fullName: String, var hp: Int, val location: Area, relationShip: String, sex: String) extends Character(fullName, relationShip, sex) {
 

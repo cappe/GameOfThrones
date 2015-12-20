@@ -1,9 +1,9 @@
-package o1.game
+package src.game
 
 import scala.collection.mutable.Map
-import o1.items._
-import o1.characters._
-import o1.game._
+import src.items._
+import src.characters._
+import src.game._
 
 class Area(var areaName: String, var areaDescription: String) {
 
